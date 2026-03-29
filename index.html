@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 MQTT Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+    }
+    .data-container {
+      padding: 15px;
+      margin: 10px 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+    .data-item {
+      margin-bottom: 10px;
+    }
+    .data-item span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>ESP32 MQTT Data Visualization</h1>
+  <p>This page dynamically updates with data received from the ESP32.</p>
+
+  <div id="data-container" class="data-container">
+    <!-- Data from ESP32 will be added here -->
+  </div>
+
+  <script>
+    const dataContainer = document.getElementById('data-container');
+
+    // WebSocket or HTTP polling simulation (replace URL as needed)
+    const updateData = () => {
+      fetch('/data-endpoint') // Replace this with the actual endpoint that receives data from ESP32
+        .then(response => response.json())
+        .then(data => {
+          // Clear previous content
+          dataContainer.innerHTML = '';
+
+          // Display received data
+          data.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'data-item';
+            div.innerHTML = `<span>Data ${index + 1}:</span> ${item.message}`;
+            dataContainer.appendChild(div);
+          });
+        })
+        .catch(err => {
+          console.error('Error fetching data:', err);
+        });
+    };
+
+    // Update every 5 seconds
+    setInterval(updateData, 5000);
+  </script>
+</body>
+</html>
